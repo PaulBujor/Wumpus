@@ -4,6 +4,8 @@ import numpy as np
 import random
 import os
 
+movements = {1: "UP", 2: "RIGHT", 3: "DOWN", 4: "LEFT"}
+gameFinished = False
 
 def randomPos(mina):
     randX = random.randrange(1, 7)
@@ -13,6 +15,11 @@ def randomPos(mina):
         randY = random.randrange(1, 7)
     return randX, randY
 
+def moveCharacter(character, mina, cmd):
+    if cmd == "EXIT":
+        globals()["gameFinished"] = False
+    else:
+        character.move(mina, cmd)
 
 def printMine(mina, player, wumpus):
     for i in range(7):
@@ -47,31 +54,18 @@ def startGame():
     wumpus = Wumpus(wumpusPosition[0], wumpusPosition[1])
     print(wumpus.printPosition())
 
-    gameFinished = False
-
     print(player.printPosition())
 
-    while not gameFinished:
-        clear = lambda: os.system('cls')
-        clear()
+    while not globals()["gameFinished"]:
+        # clear = lambda: os.system('cls')
+        # clear()
         printMine(mina, player, wumpus)
         cmd = input("Enter UP / DOWN / LEFT / RIGHT / EXIT: ")
-        if cmd.upper() == "UP":
-            if mina[player.getY()-1][player.getX()] == 0:
-                player.moveUp()
-        elif cmd.upper() == "DOWN":
-            if mina[player.getY()+1][player.getX()] == 0:
-                player.moveDown()
-        elif cmd.upper() == "LEFT":
-            if mina[player.getY()][player.getX()-1] == 0:
-                player.moveLeft()
-        elif cmd.upper() == "RIGHT":
-            if mina[player.getY()][player.getX()+1] == 0:
-                player.moveRight()
-        elif cmd == "EXIT":
-            gameFinished = True
-        else:
-            print("idiot")
+        moveCharacter(player, mina, cmd)
+        randomKey = random.randint(1, 4)
+        print(randomKey)
+        moveCharacter(wumpus, mina, movements.get(randomKey))
+        # TODO check random so wumpus doesn't go into wall
         # print(player.printPosition())
 
     print("Game finished.")

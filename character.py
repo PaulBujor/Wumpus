@@ -21,5 +21,21 @@ class Character:
     def getY(self):
         return self.__y
 
+    def move(self, mina, cmd):
+        if cmd.upper() == "UP":
+            if mina[self.getY()-1][self.getX()] == 0:
+                self.moveUp()
+        elif cmd.upper() == "DOWN":
+            if mina[self.getY()+1][self.getX()] == 0:
+                self.moveDown()
+        elif cmd.upper() == "LEFT":
+            if mina[self.getY()][self.getX()-1] == 0:
+                self.moveLeft()
+        elif cmd.upper() == "RIGHT":
+            if mina[self.getY()][self.getX()+1] == 0:
+                self.moveRight()
+        else:
+            print("idiot")
+
     def printPosition(self):
         return "x: {} y: {}".format(self.getX(), self.getY())
