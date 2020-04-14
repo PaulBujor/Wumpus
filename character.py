@@ -20,3 +20,6 @@ class Character:
 
     def getY(self):
         return self.__y
+
+    def printPosition(self):
+        return "x: {} y: {}".format(self.getX(), self.getY())
