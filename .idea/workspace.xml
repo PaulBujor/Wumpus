@@ -20,11 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b476bf3-6776-485a-b7a4-1110d19e4317" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/wumpus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/character.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wumpus.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/wumpus.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wumpus.py" beforeDir="false" afterPath="$PROJECT_DIR$/wumpus.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +52,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bujor\OneDrive - ViaUC\Skrivebord\Wumpus" />
+    </key>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -65,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1586862014812</updated>
       <workItem from="1586862017411" duration="282000" />
-      <workItem from="1586862336675" duration="795000" />
+      <workItem from="1586862336675" duration="1437000" />
     </task>
     <servers />
   </component>
