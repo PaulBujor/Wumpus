@@ -6,7 +6,7 @@ class Player(Character):
         Character.__init__(self)
         self.hasBullet = True
 
-    def fireBullet(self):
+    def fireGun(self):
         self.hasBullet = False
 
     def printPosition(self):
