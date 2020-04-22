@@ -17,53 +17,66 @@ def randomPos(mina):
     return randX, randY
 
 
-def moveCharacter(character, mina, cmd):
+def moveCharacter(character, mina, cmd, wumpus = None):
     if cmd == "EXIT":
         globals()["gameFinished"] = True
-    elif cmd.upper() == "SHOOT":
+    elif cmd.upper() == "SHOOT" and wumpus is not None:
         direction = input("Enter UP / DOWN / LEFT / RIGHT: ")
-        playerY = character.getY();
-        playerX = character.getX();
+        #TODO if bullet is there
+        playerY = character.getY()
+        playerX = character.getX()
+        bulletMap = mina
+        bulletMap[wumpus.getY()][wumpus.getX()] = 2
         a = None
         if direction.upper() == "UP":
-            a = mina.T[playerX][playerY-1::-1]  # NORD
+            a = bulletMap.T[playerX][playerY-1::-1]  # NORD
         elif direction.upper() == "DOWN":
-            a = mina.T[playerX + 1][playerY+1::]  # SUD
+            a = bulletMap.T[playerX][playerY+1::]  # SUD
         elif direction.upper() == "RIGHT":
-            a = mina[playerY][playerX+1::]  # EST
+            a = bulletMap[playerY][playerX+1::]  # EST
         elif direction.upper() == "LEFT":
-            a = mina[playerY][playerX-1::-1]  # VEST
-        print(a)
+            a = bulletMap[playerY][playerX-1::-1]  # VEST
+        for x in a:
+            if x == 2:
+                wumpus.kill()
+                print("Wumpus ded")
+                break
+            elif x == 1:
+                print("Bullet ded")
+                break
+
     else:
         character.move(mina, cmd)
 
 
-def printMine(mina, player, wumpus):
+def printMine(mina, player, wumpus, vizitat):
     for i in range(7):
         for j in range(7):
-            if mina[i][j] == 1:
-                print("0", end=" ")
-            else:
-                if player.getX() == j and player.getY() == i:
-                    print("P", end=" ")
-                elif wumpus.getX() == j and wumpus.getY() == i:
-                    print("W", end=" ")
+            if vizitat[i][j] == 1:
+                if mina[i][j] == 1:
+                    print("X", end=" ")
                 else:
-                    print(" ", end=" ")
+                    if player.getX() == j and player.getY() == i:
+                        print("P", end=" ")
+                    elif wumpus.getX() == j and wumpus.getY() == i:
+                        print("W", end=" ")
+                    else:
+                        print(" ", end=" ")
+            else:
+                print("?", end=" ")
         print()
 
 
 def startGame():
-    mina = [[1, 1, 1, 1, 1, 1, 1],
+    mina = np.array([[1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 1, 0, 1],
             [1, 0, 1, 0, 1, 0, 1],
             [1, 0, 1, 0, 0, 0, 1],
             [1, 0, 0, 0, 1, 1, 1],
             [1, 1, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1]]
+            [1, 1, 1, 1, 1, 1, 1]])
 
     vizitat = np.zeros((7, 7), dtype=int)
-    print(vizitat)
 
     player = Player()
 
@@ -76,9 +89,10 @@ def startGame():
     while not globals()["gameFinished"]:
         # clear = lambda: os.system('cls')
         # clear()
-        printMine(mina, player, wumpus)
+        #TODO vizitate 3x3 iei pozitia la player si in zona 3x3 din jur pui vizitat[i][j] = 1
+        printMine(mina, player, wumpus, vizitat)
         cmd = input("Enter UP / DOWN / LEFT / RIGHT / SHOOT / EXIT: ")
-        moveCharacter(player, mina, cmd)
+        moveCharacter(player, mina, cmd, wumpus)
         randomKey = random.randint(1, 4)
         moveCharacter(wumpus, mina, movements.get(randomKey))
         # TODO check random so wumpus doesn't go into wall

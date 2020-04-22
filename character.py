@@ -2,6 +2,10 @@ class Character:
     def __init__(self, x=1, y=1):
         self.__x = x
         self.__y = y
+        self.isAlive = True
+
+    def kill(self):
+        self.isAlive = False
 
     def moveUp(self):
         self.__y -= 1
