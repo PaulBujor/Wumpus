@@ -7,6 +7,7 @@ import os
 movements = {1: "UP", 2: "RIGHT", 3: "DOWN", 4: "LEFT"}
 gameFinished = False
 
+
 def randomPos(mina):
     randX = random.randrange(1, 7)
     randY = random.randrange(1, 7)
@@ -15,11 +16,27 @@ def randomPos(mina):
         randY = random.randrange(1, 7)
     return randX, randY
 
+
 def moveCharacter(character, mina, cmd):
     if cmd == "EXIT":
-        globals()["gameFinished"] = False
+        globals()["gameFinished"] = True
+    elif cmd.upper() == "SHOOT":
+        direction = input("Enter UP / DOWN / LEFT / RIGHT: ")
+        playerY = character.getY();
+        playerX = character.getX();
+        a = None
+        if direction.upper() == "UP":
+            a = mina.T[playerX][playerY-1::-1]  # NORD
+        elif direction.upper() == "DOWN":
+            a = mina.T[playerX + 1][playerY+1::]  # SUD
+        elif direction.upper() == "RIGHT":
+            a = mina[playerY][playerX+1::]  # EST
+        elif direction.upper() == "LEFT":
+            a = mina[playerY][playerX-1::-1]  # VEST
+        print(a)
     else:
         character.move(mina, cmd)
+
 
 def printMine(mina, player, wumpus):
     for i in range(7):
@@ -46,7 +63,7 @@ def startGame():
             [1, 1, 1, 1, 1, 1, 1]]
 
     vizitat = np.zeros((7, 7), dtype=int)
-    # print(vizitat)
+    print(vizitat)
 
     player = Player()
 
@@ -60,10 +77,9 @@ def startGame():
         # clear = lambda: os.system('cls')
         # clear()
         printMine(mina, player, wumpus)
-        cmd = input("Enter UP / DOWN / LEFT / RIGHT / EXIT: ")
+        cmd = input("Enter UP / DOWN / LEFT / RIGHT / SHOOT / EXIT: ")
         moveCharacter(player, mina, cmd)
         randomKey = random.randint(1, 4)
-        print(randomKey)
         moveCharacter(wumpus, mina, movements.get(randomKey))
         # TODO check random so wumpus doesn't go into wall
         # print(player.printPosition())
