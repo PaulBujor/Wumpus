@@ -27,16 +27,16 @@ class Character:
 
     def move(self, mina, cmd):
         if cmd.upper() == "UP":
-            if mina[self.getY()-1][self.getX()] == 0:
+            if mina[self.getY()-1][self.getX()] != 1:
                 self.moveUp()
         elif cmd.upper() == "DOWN":
-            if mina[self.getY()+1][self.getX()] == 0:
+            if mina[self.getY()+1][self.getX()] != 1:
                 self.moveDown()
         elif cmd.upper() == "LEFT":
-            if mina[self.getY()][self.getX()-1] == 0:
+            if mina[self.getY()][self.getX()-1] != 1:
                 self.moveLeft()
         elif cmd.upper() == "RIGHT":
-            if mina[self.getY()][self.getX()+1] == 0:
+            if mina[self.getY()][self.getX()+1] != 1:
                 self.moveRight()
         else:
             print("idiot")
