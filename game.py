@@ -58,9 +58,15 @@ def moveCharacter(character, matrix, cmd, wumpus=None):
 
 def wumpusNear(player, wumpus):
     return (player.getX() - 1 == wumpus.getX() and player.getY() == wumpus.getY()) or (
-                player.getX() + 1 == wumpus.getX() and player.getY() == wumpus.getY()) or (
-                       player.getX() == wumpus.getX() and player.getY() + 1 == wumpus.getY()) or (
-                       player.getX() == wumpus.getX() and player.getY() - 1 == wumpus.getY())
+            player.getX() + 1 == wumpus.getX() and player.getY() == wumpus.getY()) or (
+                   player.getX() == wumpus.getX() and player.getY() + 1 == wumpus.getY()) or (
+                   player.getX() == wumpus.getX() and player.getY() - 1 == wumpus.getY())
+
+
+def checkPosition(player, wumpus, map):
+    player.isAlive = not ((player.getX() == wumpus.getX() and player.getY() == wumpus.getY() and wumpus.isAlive) or
+                          map[player.getY()][
+                              player.getX()] == 3)
 
 
 def printMine(map, player, wumpus, vizitat):
@@ -78,9 +84,8 @@ def printMine(map, player, wumpus, vizitat):
                         print("A", end=" ")
                     elif map[i][j] == 3:
                         print("B", end=" ")
-                    elif map[i][j] == 2:
-                        if wumpusNear(player, wumpus):
-                            print("S", end=" ")  # Stink
+                    elif wumpusNear(player, wumpus) and i == wumpus.getY() and j == wumpus.getX() and wumpus.isAlive:
+                        print("S", end=" ")  # Stink
                     else:
                         print(" ", end=" ")
             else:
@@ -111,11 +116,10 @@ def startGame():
 
     goldPosition = randomPos(map)
     map[goldPosition[0]][goldPosition[1]] = 5
-    print(goldPosition)
+    goldFound = False
 
-    while not globals()["gameFinished"]:
-        clear = lambda: os.system('cls')
-        clear()
+    while not globals()["gameFinished"] and player.isAlive:
+        os.system('cls')
         # visit
         vizitat[player.getY() - 1][player.getX()] = 1
         vizitat[player.getY() + 1][player.getX()] = 1
@@ -123,21 +127,33 @@ def startGame():
         vizitat[player.getY()][player.getX() + 1] = 1
         vizitat[player.getY()][player.getX()] = 1
 
-        print(vizitat)
-
         printMine(map, player, wumpus, vizitat)
         cmd = input("Enter UP / DOWN / LEFT / RIGHT / SHOOT / EXIT: ")
         moveCharacter(player, map, cmd, wumpus)
 
         if player.getX() == goldPosition[1] and player.getY() == goldPosition[0]:
-            print("You have found the treasure. Now go back to where your started. Watch out! The Wumpus might be close!")
+            print(
+                "You have found the treasure. Now go back to where your started. Watch out! The Wumpus might be close!")
+            goldFound = True
+            map[goldPosition[0]][goldPosition[1]] = 0
+
+        checkPosition(player, wumpus, map)
 
         randomKey = random.randint(1, 4)
         moveCharacter(wumpus, map, movements.get(randomKey))
         # TODO check random so wumpus doesn't go into wall
         # print(player.printPosition())
 
+        if player.getY() == 1 and player.getX() == 1 and goldFound:
+            globals()["gameFinished"] = True
+
+    os.system('cls')
+    printMine(map, player, wumpus, vizitat)
     print("Game finished.")
+    if goldFound and player.isAlive:
+        print("You won, you are jmen!")
+    else:
+        print("You're Hammond!")
 
 
 if __name__ == '__main__':

@@ -1,1 +1,1 @@
-print(chr(2588))
+from input import _Getch
